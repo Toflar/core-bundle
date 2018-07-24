@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Contao\CoreBundle\DependencyInjection;
 
+use Contao\CoreBundle\Capi\ResourceInterface;
 use Contao\CoreBundle\Picker\PickerProviderInterface;
 use Imagine\Exception\RuntimeException;
 use Imagine\Gd\Imagine;
@@ -76,6 +77,7 @@ class ContaoCoreExtension extends ConfigurableExtension
         $container->setParameter('contao.pretty_error_screens', $mergedConfig['pretty_error_screens']);
         $container->setParameter('contao.error_level', $mergedConfig['error_level']);
         $container->setParameter('contao.locales', $mergedConfig['locales']);
+        $container->setParameter('contao.capi.routePrefix', $mergedConfig['capi']['routePrefix']);
         $container->setParameter('contao.image.bypass_cache', $mergedConfig['image']['bypass_cache']);
         $container->setParameter('contao.image.target_dir', $mergedConfig['image']['target_dir']);
         $container->setParameter('contao.image.valid_extensions', $mergedConfig['image']['valid_extensions']);
@@ -92,8 +94,11 @@ class ContaoCoreExtension extends ConfigurableExtension
 
         $container
             ->registerForAutoconfiguration(PickerProviderInterface::class)
-            ->addTag('contao.picker_provider')
-        ;
+            ->addTag('contao.picker_provider');
+
+        $container
+            ->registerForAutoconfiguration(ResourceInterface::class)
+            ->addTag('contao.capi.resource');
     }
 
     /**

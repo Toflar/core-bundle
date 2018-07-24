@@ -53,6 +53,10 @@ services:
         tags:
             - { name: kernel.cache_warmer }
 
+    contao.capi.resource_collection:
+        class: Contao\CoreBundle\Capi\ResourceCollection
+        arguments: [!tagged contao.capi.resource]
+
     contao.controller.backend_csv_import:
         class: Contao\CoreBundle\Controller\BackendCsvImportController
         arguments:
@@ -61,6 +65,13 @@ services:
             - "@request_stack"
             - "@translator"
             - "%kernel.project_dir%"
+
+    contao.controller.capi:
+        class: Contao\CoreBundle\Controller\CapiController
+        arguments:
+            - "@contao.capi.resource_collection"
+            - "%contao.capi.routePrefix%"
+        public: true
 
     contao.controller.insert_tags:
         class: Contao\CoreBundle\Controller\InsertTagsController
@@ -316,6 +327,14 @@ services:
             - "%contao.resources_paths%"
         public: true
 
+    contao.routing.capi_loader:
+        class: Contao\CoreBundle\Routing\CapiLoader
+        arguments:
+            - "@contao.capi.resource_collection"
+            - "%contao.capi.routePrefix%"
+        tags:
+            - { name: routing.loader }
+
     contao.routing.frontend_loader:
         class: Contao\CoreBundle\Routing\FrontendLoader
         arguments:
@@ -490,3 +509,8 @@ services:
             - "@contao.routing.scope_matcher"
         tags:
             - { name: twig.extension }
+
+    # Capi Resources
+    Contao\CoreBundle\Capi\Resource\:
+        resource: '../../Capi/Resource/*'
+        autoconfigure: true

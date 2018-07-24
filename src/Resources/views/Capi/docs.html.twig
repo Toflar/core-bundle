@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ title }}</title>
+    <link href="{{ asset('bundles/contaocore/openapi/style.css') }}" type="text/css" rel="stylesheet">
+    <script src="{{ asset('bundles/contaocore/openapi/bundle.js') }}"></script>
+</head>
+<body>
+
+<div id="swagger-ui"></div>
+
+<script>
+(function(win) {
+    win.SwaggerUIBundle({
+        dom_id: '#swagger-ui',
+        spec: {{ spec|json_encode()|raw }}
+    })
+})(window);
+</script>
+
+</body>
+</html>

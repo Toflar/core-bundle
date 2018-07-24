@@ -2,6 +2,11 @@ contao:
     resource: "@ContaoCoreBundle/Controller"
     type: annotation
 
+# Contao API (CAPI)
+contao_capi:
+    resource: .
+    type: contao_capi
+
 # Redirect /contao/ to /contao
 contao_backend_redirect:
     path: /contao/
