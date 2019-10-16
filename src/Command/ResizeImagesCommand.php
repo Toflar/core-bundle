@@ -96,6 +96,8 @@ class ResizeImagesCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        \Imagick::setResourceLimit(\Imagick::RESOURCETYPE_THREAD, 1);
+
         if (!$this->resizer instanceof DeferredResizerInterface) {
             throw new \RuntimeException('Deferred resizer not available');
         }
